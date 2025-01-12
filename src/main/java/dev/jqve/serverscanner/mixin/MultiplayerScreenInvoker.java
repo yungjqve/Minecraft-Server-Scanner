@@ -1,7 +1,6 @@
 package dev.jqve.serverscanner.mixin;
 
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
-import net.minecraft.client.gui.screen.multiplayer.MultiplayerServerListWidget;
 import net.minecraft.client.network.ServerInfo;
 import net.minecraft.client.option.ServerList;
 import org.spongepowered.asm.mixin.Mixin;

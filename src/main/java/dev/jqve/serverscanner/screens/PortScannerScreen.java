@@ -10,7 +10,6 @@ import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.network.ServerInfo;
 import net.minecraft.client.option.ServerList;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
