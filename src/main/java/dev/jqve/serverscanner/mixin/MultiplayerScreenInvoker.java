@@ -12,20 +12,11 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 public interface MultiplayerScreenInvoker {
 
     @Accessor("serverList")
-    ServerList getServerList();
-
-    @Accessor("serverList")
     void setServerList(ServerList serverList);
-
-    @Accessor("selectedEntry")
-    ServerInfo getSelectedEntry();
 
     @Accessor("selectedEntry")
     void setSelectedEntry(ServerInfo selectedEntry);
 
     @Invoker("addEntry")
     void invokeAddEntry(boolean confirmedAction);
-
-    @Accessor("serverListWidget")
-    void setServerListWidget(MultiplayerServerListWidget serverListWidget);
 }

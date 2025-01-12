@@ -29,8 +29,7 @@ public class PortScannerScreen extends Screen {
     private static final Logger log = LogManager.getLogger(PortScannerScreen.class);
     private TextFieldWidget ipTextField;
     List<Integer> openPortList = new ArrayList<>();
-    private List<ServerInfo> foundServers = new ArrayList<>();
-    private static final Text CANNOT_CONNECT_TEXT = Text.translatable("multiplayer.status.cannot_connect").formatted(Formatting.RED);
+    private final List<ServerInfo> foundServers = new ArrayList<>();
 
     public PortScannerScreen() {
         super(Text.literal("Port Scanner"));

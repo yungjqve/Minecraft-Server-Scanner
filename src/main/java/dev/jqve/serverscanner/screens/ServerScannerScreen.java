@@ -20,12 +20,9 @@ public class ServerScannerScreen extends Screen {
     private TextFieldWidget ipTextField;
     private List<ServerInfo> foundServers = new ArrayList<>();
     private String savedIpText = "";
-    private List<ServerInfo> savedFoundServers = new ArrayList<>();
-    private final Screen parent;
 
     public ServerScannerScreen(Screen parent) {
         super(Text.of("Server Scanner"));
-        this.parent = parent;
     }
 
     @Override
@@ -34,7 +31,7 @@ public class ServerScannerScreen extends Screen {
         if (this.ipTextField != null) {
             savedIpText = this.ipTextField.getText();
         }
-        savedFoundServers = new ArrayList<>(foundServers);
+        List<ServerInfo> savedFoundServers = new ArrayList<>(foundServers);
 
         // Initialize components
         this.ipTextField = new TextFieldWidget(this.textRenderer, this.width / 2 - 100, 20, 200, 20, Text.of("Enter IP"));
@@ -64,7 +61,7 @@ public class ServerScannerScreen extends Screen {
         // Scan the network for servers
         for (int i = 1; i <= 254; i++) {
             String testIp = baseIp + i;
-            if (isPortOpen(testIp, 25565, 200)) {
+            if (isPortOpen(testIp)) {
                 counter++;
                 foundServers.add(new ServerInfo("Server #" + counter, testIp, ServerInfo.ServerType.LAN));
             }
@@ -76,14 +73,13 @@ public class ServerScannerScreen extends Screen {
 
     /**
      * Checks if a port is open on a given IP address.
+     *
      * @param ip The IP address to check.
-     * @param port The port to check.
-     * @param timeout The timeout for the connection attempt.
      * @return True if the port is open, false otherwise.
      */
-    private boolean isPortOpen(String ip, int port, int timeout) {
+    private boolean isPortOpen(String ip) {
         try (Socket socket = new Socket()) {
-            socket.connect(new InetSocketAddress(ip, port), timeout);
+            socket.connect(new InetSocketAddress(ip, 25565), 200);
             return true;
         } catch (IOException e) {
             return false;
