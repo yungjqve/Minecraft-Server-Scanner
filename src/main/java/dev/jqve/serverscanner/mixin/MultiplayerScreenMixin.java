@@ -74,7 +74,7 @@ public class MultiplayerScreenMixin extends Screen {
 
     private ButtonWidget createPortScannerButton() {
         return ButtonWidget.builder(Text.of("Port Scanner"), button ->
-                MinecraftClient.getInstance().setScreen(new PortScannerScreen(this))
+                MinecraftClient.getInstance().setScreen(new PortScannerScreen())
         ).width(100).position(10, this.height - 29).build();
     }
 
