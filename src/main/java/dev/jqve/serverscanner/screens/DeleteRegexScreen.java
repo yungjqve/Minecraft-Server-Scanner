@@ -9,6 +9,9 @@ import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.option.ServerList;
 import net.minecraft.text.Text;
 
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
+
 public class DeleteRegexScreen extends Screen {
     private final Screen parentScreen;
     private TextFieldWidget regexTextField;
@@ -21,18 +24,31 @@ public class DeleteRegexScreen extends Screen {
     @Override
     protected void init() {
         // Initialize components
-        this.regexTextField = new TextFieldWidget(this.textRenderer, this.width / 2 - 100, 20, 200, 20, Text.of("Enter Regex"));
-        this.addDrawableChild(regexTextField);
+        regexTextField = new TextFieldWidget(this.textRenderer, width/2-100, 60, 200, 20, Text.of(""));
+        regexTextField.setPlaceholder(Text.of(".* to delete all")); // Add placeholder text
+        addDrawableChild(regexTextField);
 
-        this.addDrawableChild(ButtonWidget.builder(Text.of("Delete"), (button) -> {
+        // Add cancel button
+        addDrawableChild(ButtonWidget.builder(Text.of("Cancel"), b -> close())
+                .dimensions(width/2 - 100, 140, 90, 20)
+                .build());
+
+        addDrawableChild(ButtonWidget.builder(Text.of("Delete"), b -> {
             String regex = regexTextField.getText();
-            deleteServers(regex);
-        }).width(100).position(this.width / 2 - 50, 50).build());
+            deleteServers(regex);})
+                .dimensions(width/2 + 10, 140, 90, 20)
+                .build());
     }
 
     private void deleteServers(String regex) {
+        try {
+            Pattern.compile(regex);
+        } catch (PatternSyntaxException e) {
+            this.regexTextField.setText("Invalid regex");
+            return;
+        }
         MinecraftClient client = MinecraftClient.getInstance();
-        ServerList serverList = new ServerList(client);
+        ServerList serverList = ((MultiplayerScreen) parentScreen).getServerList();
         serverList.loadFile();
         for (int i = 0; i < serverList.size(); i++) {
             if (serverList.get(i).name != null && serverList.get(i).name.matches(regex)) {
@@ -45,4 +61,5 @@ public class DeleteRegexScreen extends Screen {
         invoker.setServerList(serverList);
         client.setScreen(new MultiplayerScreen(parentScreen));
     }
+
 }
